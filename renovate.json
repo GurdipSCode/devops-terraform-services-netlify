@@ -1,0 +1,60 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)",
+    ":disableRateLimiting"
+  ],
+
+  "enabledManagers": [
+    "terraform",
+    "terraform-version",
+    "tflint",
+    "opentofu"
+  ],
+
+  "terraform": {
+    "enabled": true,
+    "fileMatch": [
+      "\\.tf$",
+      "\\.tfvars$"
+    ]
+  },
+
+  "terraform-version": {
+    "enabled": true,
+    "fileMatch": [
+      "(^|/)\\.terraform-version$"
+    ]
+  },
+
+  "opentofu": {
+    "enabled": true,
+    "fileMatch": [
+      "\\.tf$"
+    ]
+  },
+
+  "packageRules": [
+    {
+      "description": "Group Terraform providers",
+      "matchManagers": ["terraform"],
+      "matchDatasources": ["terraform-provider"],
+      "groupName": "Terraform Providers",
+      "groupSlug": "terraform-providers"
+    },
+    {
+      "description": "Group Terraform modules",
+      "matchManagers": ["terraform"],
+      "matchDatasources": ["terraform-module"],
+      "groupName": "Terraform Modules",
+      "groupSlug": "terraform-modules"
+    },
+    {
+      "description": "Auto-merge patch updates for providers",
+      "matchManagers": ["terraform"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
